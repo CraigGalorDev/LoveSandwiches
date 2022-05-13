@@ -1,4 +1,3 @@
-
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -17,15 +16,21 @@ def get_sales_data():
     """
     Get sales input from the user
     """
-    print("Please enter sales data from the last market day")
-    print("Data should be six numbers, separted by commas")
-    print("Example 10,34,26,56,45,87\n")
+    while True:
+        print("Please enter sales data from the last market day")
+        print("Data should be six numbers, separted by commas")
+        print("Example 10,34,26,56,45,87\n")
 
-    data_str = input("Enter your data here:")
-    print(f"The data provided is {data_str}")
+        data_str = input("Enter your data here:")
+        print(f"The data provided is {data_str}")
 
-    sales_data = data_str.split(",")
-    validate_data(sales_data)
+        sales_data = data_str.split(",")
+       
+        if validate_data(sales_data):
+            print("Data is valid")
+            break
+
+    return sales_data
 
 def validate_data(values):
     """
@@ -42,6 +47,9 @@ def validate_data(values):
             )
     except ValueError as e:
         print(f"invalid data {e}, Please try again.\n")
+        return False
 
-get_sales_data()
+    return True
+
+data = get_sales_data()
 
