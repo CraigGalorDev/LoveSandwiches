@@ -23,7 +23,6 @@ def get_sales_data():
         print("Example 10,34,26,56,45,87\n")
 
         data_str = input("Enter your data here:")
-        print(f"The data provided is {data_str}")
 
         sales_data = data_str.split(",")
        
@@ -39,7 +38,6 @@ def validate_data(values):
     Raises ValueError if strings cannot be converted
     or if there arnt exactly 6 values
     """
-    print(values)
     try:
         [int(value) for value in values]
         if len(values) != 6:
@@ -117,7 +115,20 @@ def get_last_5_entries_sales():
         column = sales.col_values(int)
         columns.append(column[-5:])
 
-    return cloumns
+    return columns
+
+def calculate_stock_data(data):
+    """
+    calculte the average stock for each item type, adding 10%
+    """
+    print("calculate stock data.....\n")
+    new_stock_data = []
+    for column in data:
+        int_column = [int(num) for num in column]
+        average = sum(int_column) / len(int_column)
+        stock_num = average * 1.1
+        new_stock_data.append(round(stock_num))
+    return new_stock_data
 
 def main():
     """
@@ -128,12 +139,12 @@ def main():
     update_worksheet(sales_data, "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
-    
-
+    sales_columns = get_last_5_entries_sales()
+    stock_data = calculate_stock_data(sales_columns)
+    update_worksheet(stock_data, "stock")
 
 
 
 
 print("Welcome to love sandwiches data automation")
-#main()
-sales_columns = get_last_5_entries_sales()
+main()
